@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Hoop Stat Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">🏀</div>
+        <h1>Hoop <span>Tracker</span></h1>
+      </header>
+
+      <div class="addbar">
+        <input
+          id="nameInput"
+          type="text"
+          placeholder="Nome…"
+          maxlength="24"
+          autocomplete="off"
+        />
+        <button class="btn" id="addBtn">Add</button>
+      </div>
+
+      <div class="tablecard">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left; padding-left: 10px">Player</th>
+              <th>FG</th>
+              <th>3P</th>
+              <th>FG%</th>
+              <th>PTS</th>
+              <th>AST</th>
+              <th>REB</th>
+              <th>STL</th>
+              <th>BLK</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+          <tfoot id="tfoot"></tfoot>
+        </table>
+        <div class="empty" id="emptyMsg">
+          Nenhum jogador ainda — adicione um acima e toque em uma linha para registrar estatísticas.
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn ghost" id="resetBtn">Reiniciar Sessão</button>
+      </div>
+    </div>
+
+    <!-- Bottom sheet editor -->
+    <div class="sheet-backdrop" id="backdrop"></div>
+    <div class="sheet" id="sheet">
+      <div class="grab"></div>
+      <h2 id="sheetName">Jogador</h2>
+      <div class="sub" id="sheetLine"></div>
+
+      <div class="statgroup">
+        <div class="gtitle">
+          <b>2-PONTOS</b
+          ><span class="val"><b id="v2m">0</b>/<span id="v2a">0</span></span>
+        </div>
+        <div class="btnrow">
+          <button class="bigbtn make" data-stat="p2m">
+            + Convertido<small>conta tentativa</small>
+          </button>
+          <button class="bigbtn miss" data-stat="p2a">+ Errado</button>
+          <button class="bigbtn undo" data-undo="p2">−1</button>
+        </div>
+      </div>
+
+      <div class="statgroup">
+        <div class="gtitle">
+          <b>3-PONTOS</b
+          ><span class="val"><b id="v3m">0</b>/<span id="v3a">0</span></span>
+        </div>
+        <div class="btnrow">
+          <button class="bigbtn make" data-stat="p3m">
+            + Convertido<small>conta tentativa</small>
+          </button>
+          <button class="bigbtn miss" data-stat="p3a">+ Errado</button>
+          <button class="bigbtn undo" data-undo="p3">−1</button>
+        </div>
+      </div>
+
+      <div class="statgroup">
+        <div class="gtitle">
+          <b>ASSISTÊNCIAS</b><span class="val"><b id="vast">0</b></span>
+        </div>
+        <div class="btnrow">
+          <button class="bigbtn ast" data-stat="ast">+ Assistência</button>
+          <button class="bigbtn undo" data-undo="ast">−1</button>
+        </div>
+      </div>
+
+          <div class="statgroup">
+      <div class="gtitle">
+        <b>REBOTES</b><span class="val"><b id="vreb">0</b></span>
+      </div>
+      <div class="btnrow">
+        <button class="bigbtn" data-stat="reb" style="background: linear-gradient(135deg, #a8791f, #f5c451); color:#1a1206;">+ Rebote</button>
+        <button class="bigbtn undo" data-undo="reb">−1</button>
+      </div>
+    </div>
+
+    <div class="statgroup">
+      <div class="gtitle">
+        <b>ROUBOS</b><span class="val"><b id="vstl">0</b></span>
+      </div>
+      <div class="btnrow">
+        <button class="bigbtn" data-stat="stl" style="background: linear-gradient(135deg, #5a2fa8, #9b6bff);">+ Roubo</button>
+        <button class="bigbtn undo" data-undo="stl">−1</button>
+      </div>
+    </div>
+
+    <div class="statgroup">
+      <div class="gtitle">
+        <b>BLOQUEIOS</b><span class="val"><b id="vblk">0</b></span>
+      </div>
+      <div class="btnrow">
+        <button class="bigbtn" data-stat="blk" style="background: linear-gradient(135deg, #1f8f52, #2ecc71);">+ Bloqueio</button>
+        <button class="bigbtn undo" data-undo="blk">−1</button>
+      </div>
+    </div>
+
+      <button class="btn ghost closebtn" id="closeBtn">Fechar</button>
+      <button class="btn danger delbtn" id="delBtn">Remover jogador</button>
+    </div>
+  </body>
+</html>
