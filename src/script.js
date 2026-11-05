@@ -110,8 +110,8 @@ function render() {
         "</td>" +
         '<td class="ast">' +
         T.ast +
-        "</td>" +
-        '<td class="reb">';
+        "</td>" 
+        "</tr>";
 }
 
 function addPlayer() {
