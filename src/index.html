@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="theme-color" content="#0b1020" />
-    <title>Hoop Stat Tracker</title>
+    <title>BoxScore</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
   </head>
@@ -15,7 +15,7 @@
     <div class="wrap">
       <header>
         <div class="logo">🏀</div>
-        <h1>Hoop <span>Tracker</span></h1>
+        <h1>Box<span>Score</span></h1>
       </header>
 
       <div class="addbar">
@@ -39,9 +39,6 @@
               <th>FG%</th>
               <th>PTS</th>
               <th>AST</th>
-              <th>REB</th>
-              <th>STL</th>
-              <th>BLK</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -101,36 +98,6 @@
           <button class="bigbtn undo" data-undo="ast">−1</button>
         </div>
       </div>
-
-          <div class="statgroup">
-      <div class="gtitle">
-        <b>REBOTES</b><span class="val"><b id="vreb">0</b></span>
-      </div>
-      <div class="btnrow">
-        <button class="bigbtn" data-stat="reb" style="background: linear-gradient(135deg, #a8791f, #f5c451); color:#1a1206;">+ Rebote</button>
-        <button class="bigbtn undo" data-undo="reb">−1</button>
-      </div>
-    </div>
-
-    <div class="statgroup">
-      <div class="gtitle">
-        <b>ROUBOS</b><span class="val"><b id="vstl">0</b></span>
-      </div>
-      <div class="btnrow">
-        <button class="bigbtn" data-stat="stl" style="background: linear-gradient(135deg, #5a2fa8, #9b6bff);">+ Roubo</button>
-        <button class="bigbtn undo" data-undo="stl">−1</button>
-      </div>
-    </div>
-
-    <div class="statgroup">
-      <div class="gtitle">
-        <b>BLOQUEIOS</b><span class="val"><b id="vblk">0</b></span>
-      </div>
-      <div class="btnrow">
-        <button class="bigbtn" data-stat="blk" style="background: linear-gradient(135deg, #1f8f52, #2ecc71);">+ Bloqueio</button>
-        <button class="bigbtn undo" data-undo="blk">−1</button>
-      </div>
-    </div>
 
       <button class="btn ghost closebtn" id="closeBtn">Fechar</button>
       <button class="btn danger delbtn" id="delBtn">Remover jogador</button>

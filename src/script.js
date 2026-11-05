@@ -58,9 +58,6 @@ function render() {
         fga: 0,
         pts: 0,
         ast: 0,
-        reb: 0,
-        stl: 0,
-        blk: 0,
     };
     
     players.forEach(function (p) {
@@ -76,9 +73,6 @@ function render() {
             <td>${pct}</td>
             <td class="pts">${t.pts}</td>
             <td class="ast">${p.ast}</td>
-            <td class="reb">${p.reb}</td>
-            <td class="stl">${p.stl}</td>
-            <td class="blk">${p.blk}</td>
         `;
         tb.appendChild(tr);
 
@@ -90,9 +84,6 @@ function render() {
         T.fga += t.fga;
         T.pts += t.pts;
         T.ast += p.ast;
-        T.reb += p.reb;
-        T.stl += p.stl;
-        T.blk += p.blk;
     });
 
     empty.style.display = players.length ? "none" : "block";
@@ -120,16 +111,7 @@ function render() {
         '<td class="ast">' +
         T.ast +
         "</td>" +
-        '<td class="reb">' +
-        T.reb +
-        "</td>" +
-        '<td class="stl">' +
-        T.stl +
-        "</td>" +
-        '<td class="blk">' +
-        T.blk +
-        "</td>" +
-        "</tr>";
+        '<td class="reb">';
 }
 
 function addPlayer() {
@@ -146,9 +128,6 @@ function addPlayer() {
         p3m: 0,
         p3a: 0,
         ast: 0,
-        reb: 0,
-        stl: 0,
-        blk: 0,
     });
 
     inp.value = "";
@@ -171,9 +150,6 @@ document.getElementById("resetBtn").addEventListener("click", function () {
             p.p3m = 0;
             p.p3a = 0;
             p.ast = 0;
-            p.reb = 0;
-            p.stl = 0;
-            p.blk = 0;
         });
         save();
         render();
@@ -197,22 +173,13 @@ function refreshSheet() {
         t.fga +
         " FG · " +
         p.ast +
-        " AST · " +
-        p.reb +
-        " REB · " +
-        p.stl +
-        " STL · " +
-        p.blk +
-        " BLK";
+        " AST · ";
 
     document.getElementById("v2m").textContent = p.p2m;
     document.getElementById("v2a").textContent = p.p2a;
     document.getElementById("v3m").textContent = p.p3m;
     document.getElementById("v3a").textContent = p.p3a;
     document.getElementById("vast").textContent = p.ast;
-    document.getElementById("vreb").textContent = p.reb;
-    document.getElementById("vstl").textContent = p.stl;
-    document.getElementById("vblk").textContent = p.blk;
 }
 
 function openSheet(id) {
@@ -289,18 +256,6 @@ sheet.addEventListener("click", function (e) {
         }
     } else if (u === "ast" && p.ast > 0) {
         p.ast--;
-    } else if (s === "reb") {
-        p.reb++;
-    } else if (s === "stl") {
-        p.stl++;
-    } else if (s === "blk") {
-        p.blk++;
-    } else if (u === "reb" && p.reb > 0) {
-        p.reb--;
-    } else if (u === "stl" && p.stl > 0) {
-        p.stl--;
-    } else if (u === "blk" && p.blk > 0) {
-        p.blk--;
     }
 
     save();
