@@ -1,4 +1,4 @@
-# BoxScore 🏀
+# BoxScore
 
 A lightweight, mobile-friendly basketball stat tracker. Add players, tap a row to log made/missed shots and assists, and see live box-score totals — all persisted in your browser's `localStorage`.
 
