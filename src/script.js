@@ -1,139 +1,123 @@
 "use strict";
 
-const LS_KEY = "playerV1";
+const LOCAL_STORAGE_KEY = "playerV1";
 let players = [];
 
 try {
-    players = JSON.parse(localStorage.getItem(LS_KEY)) || [];
-} catch (e) {
+    players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+} catch (parseError) {
     players = [];
 }
 
-let currentId = null;
+let selectedPlayerId = null;
 
-function save() {
+function savePlayersToStorage() {
     try {
-        localStorage.setItem(LS_KEY, JSON.stringify(players));
-    } catch (e) {}
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(players));
+    } catch (storageError) {}
 }
 
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, function (c) {
+function escapeHtmlCharacters(rawString) {
+  return String(rawString).replace(/[&<>"']/g, function (char) {
     return {
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;",
-    }[c];
+    }[char];
   });
 }
 
-function totals(p) {
+function calculatePlayerTotals(player) {
     return {
-        fgm: p.p2m + p.p3m,
-        fga: p.p2a + p.p3a,
-        pts: (2 * p.p2m) + (3 * p.p3m),
+        fieldGoalsMade: player.twoPointersMade + player.threePointersMade,
+        fieldGoalsAttempted: player.twoPointersAttempted + player.threePointersAttempted,
+        pointsScored: (2 * player.twoPointersMade) + (3 * player.threePointersMade),
     };
 }
 
-function current() {
-    return (players.find(function (p) {
-        return p.id === currentId;
-    }) || null
-    );
+function getSelectedPlayer() {
+    return players.find(function (player) {
+        return player.id === selectedPlayerId;
+    }) || null;
 }
 
-function render() {
-    const tb = document.getElementById("tbody");
-    const tf = document.getElementById("tfoot");
-    const empty = document.getElementById("emptyMsg");
-    tb.innerHTML = "";
-    const T = {
-        p2m: 0,
-        p2a: 0,
-        p3m: 0,
-        p3a: 0,
-        fgm: 0,
-        fga: 0,
-        pts: 0,
-        ast: 0,
+function renderPlayerStatsTable() {
+    const tableBody = document.getElementById("playersTableBody");
+    const tableFooter = document.getElementById("playersTableFooter");
+    const emptyStateMessage = document.getElementById("emptyStateMessage");
+    tableBody.innerHTML = "";
+    const overallTotals = {
+        fieldGoalsMade: 0,
+        fieldGoalsAttempted: 0,
+        threePointersMade: 0,
+        threePointersAttempted: 0,
+        pointsScored: 0,
+        assists: 0,
     };
-    
-    players.forEach(function (p) {
-        const t = totals(p);
-        const pct = t.fga ? ((100 * t.fgm) / t.fga).toFixed(1) : "0.0";
-        const tr = document.createElement("tr");
-        tr.className = "player";
-        tr.dataset.id = p.id;
-        tr.innerHTML = `
-            <td class="name">${esc(p.name)}<small>tap to log</small></td>
-            <td>${t.fgm}/${t.fga}</td>
-            <td>${p.p3m}/${p.p3a}</td>
-            <td>${pct}</td>
-            <td class="pts">${t.pts}</td>
-            <td class="ast">${p.ast}</td>
+
+    players.forEach(function (player) {
+        const playerTotals = calculatePlayerTotals(player);
+        const fieldGoalPercentage = playerTotals.fieldGoalsAttempted
+            ? ((100 * playerTotals.fieldGoalsMade) / playerTotals.fieldGoalsAttempted).toFixed(1)
+            : "0.0";
+        const tableRow = document.createElement("tr");
+        tableRow.className = "player";
+        tableRow.dataset.id = player.id;
+        tableRow.innerHTML = `
+            <td class="name">${escapeHtmlCharacters(player.name)}<small>tap to log</small></td>
+            <td>${playerTotals.fieldGoalsMade}/${playerTotals.fieldGoalsAttempted}</td>
+            <td>${player.threePointersMade}/${player.threePointersAttempted}</td>
+            <td>${fieldGoalPercentage}</td>
+            <td class="pts">${playerTotals.pointsScored}</td>
+            <td class="ast">${player.assists}</td>
         `;
-        tb.appendChild(tr);
+        tableBody.appendChild(tableRow);
 
-        T.p2m += p.p2m;
-        T.p2a += p.p2a;
-        T.p3m += p.p3m;
-        T.p3a += p.p3a;
-        T.fgm += t.fgm;
-        T.fga += t.fga;
-        T.pts += t.pts;
-        T.ast += p.ast;
+        overallTotals.fieldGoalsMade += playerTotals.fieldGoalsMade;
+        overallTotals.fieldGoalsAttempted += playerTotals.fieldGoalsAttempted;
+        overallTotals.threePointersMade += player.threePointersMade;
+        overallTotals.threePointersAttempted += player.threePointersAttempted;
+        overallTotals.pointsScored += playerTotals.pointsScored;
+        overallTotals.assists += player.assists;
     });
 
-    empty.style.display = players.length ? "none" : "block";
+    emptyStateMessage.style.display = players.length ? "none" : "block";
 
-    const Tpct = T.fga ? ((100 * T.fgm) / T.fga).toFixed(1) : "0.0";
-    tf.innerHTML =
+    const overallFieldGoalPercentage = overallTotals.fieldGoalsAttempted
+        ? ((100 * overallTotals.fieldGoalsMade) / overallTotals.fieldGoalsAttempted).toFixed(1)
+        : "0.0";
+    tableFooter.innerHTML =
         "<tr>" +
         '<td class="name">TOTALS</td>' +
-        "<td>" +
-        T.fgm +
-        "/" +
-        T.fga +
-        "</td>" +
-        "<td>" +
-        T.p3m +
-        "/" +
-        T.p3a +
-        "</td>" +
-        "<td>" +
-        Tpct +
-        "</td>" +
-        '<td class="pts">' +
-        T.pts +
-        "</td>" +
-        '<td class="ast">' +
-        T.ast +
-        "</td>" 
+        "<td>" + overallTotals.fieldGoalsMade + "/" + overallTotals.fieldGoalsAttempted + "</td>" +
+        "<td>" + overallTotals.threePointersMade + "/" + overallTotals.threePointersAttempted + "</td>" +
+        "<td>" + overallFieldGoalPercentage + "</td>" +
+        '<td class="pts">' + overallTotals.pointsScored + "</td>" +
+        '<td class="ast">' + overallTotals.assists + "</td>" +
         "</tr>";
 }
 
 function addPlayer() {
-    const inp = document.getElementById("nameInput");
-    const name = inp.value.trim();
-
-    if (!name) return;
+    const nameInputElement = document.getElementById("nameInput");
+    const cleanedPlayerName = nameInputElement.value.trim();
+    if (!cleanedPlayerName) return;
 
     players.push({
         id: Date.now() + "_" + Math.random().toString(36).slice(2, 7),
-        name: name,
-        p2m: 0,
-        p2a: 0,
-        p3m: 0,
-        p3a: 0,
-        ast: 0,
+        name: cleanedPlayerName,
+        twoPointersMade: 0,
+        twoPointersAttempted: 0,
+        threePointersMade: 0,
+        threePointersAttempted: 0,
+        assists: 0,
     });
 
-    inp.value = "";
-    save();
-    render();
-    inp.focus();
+    nameInputElement.value = "";
+    savePlayersToStorage();
+    renderPlayerStatsTable();
+    nameInputElement.focus();
 }
 
 document.getElementById("addBtn").addEventListener("click", addPlayer);
@@ -141,131 +125,124 @@ document.getElementById("nameInput").addEventListener("keydown", function (e) {
     if (e.key === "Enter") addPlayer();
 });
 
-document.getElementById("resetBtn").addEventListener("click", function () {
+document.getElementById("resetSessionBtn").addEventListener("click", function () {
     if (!players.length) return;
     if (confirm("Reset all stats to zero? Players will be kept.")) {
-        players.forEach(function (p) {
-            p.p2m = 0;
-            p.p2a = 0;
-            p.p3m = 0;
-            p.p3a = 0;
-            p.ast = 0;
+        players.forEach(function (player) {
+            player.twoPointersMade = 0;
+            player.twoPointersAttempted = 0;
+            player.threePointersMade = 0;
+            player.threePointersAttempted = 0;
+            player.assists = 0;
         });
-        save();
-        render();
+        savePlayersToStorage();
+        renderPlayerStatsTable();
     }
 });
 
-const sheet = document.getElementById("sheet");
-const backdrop = document.getElementById("backdrop");
+const statsSheetElement = document.getElementById("playerStatsSheet");
+const backdropElement = document.getElementById("sheetBackdrop");
 
-function refreshSheet() {
-    const p = current();
-    if (!p) return;
-    document.getElementById("sheetName").textContent = p.name;
+function refreshPlayerStatsSheet() {
+    const selectedPlayer = getSelectedPlayer();
+    if (!selectedPlayer) return;
+    document.getElementById("sheetPlayerName").textContent = selectedPlayer.name;
 
-    const t = totals(p);
-    document.getElementById("sheetLine").textContent = 
-        t.pts +
-        " PTS · " +
-        t.fgm +
-        "/" +
-        t.fga +
-        " FG · " +
-        p.ast +
-        " AST · ";
+    const playerTotals = calculatePlayerTotals(selectedPlayer);
+    document.getElementById("sheetSummaryLine").textContent =
+        playerTotals.pointsScored + " PTS · " +
+        playerTotals.fieldGoalsMade + "/" + playerTotals.fieldGoalsAttempted + " FG · " +
+        selectedPlayer.assists + " AST";
 
-    document.getElementById("v2m").textContent = p.p2m;
-    document.getElementById("v2a").textContent = p.p2a;
-    document.getElementById("v3m").textContent = p.p3m;
-    document.getElementById("v3a").textContent = p.p3a;
-    document.getElementById("vast").textContent = p.ast;
+    document.getElementById("twoPointersMadeValue").textContent = selectedPlayer.twoPointersMade;
+    document.getElementById("twoPointersAttemptedValue").textContent = selectedPlayer.twoPointersAttempted;
+    document.getElementById("threePointersMadeValue").textContent = selectedPlayer.threePointersMade;
+    document.getElementById("threePointersAttemptedValue").textContent = selectedPlayer.threePointersAttempted;
+    document.getElementById("assistsValue").textContent = selectedPlayer.assists;
 }
 
-function openSheet(id) {
-    currentId = id;
-    refreshSheet();
-    sheet.classList.add("open");
-    backdrop.classList.add("open");
+function openPlayerStatsSheet(playerId) {
+    selectedPlayerId = playerId;
+    refreshPlayerStatsSheet();
+    statsSheetElement.classList.add("open");
+    backdropElement.classList.add("open");
 }
 
-function closeSheet() {
-    sheet.classList.remove("open");
-    backdrop.classList.remove("open");
-    currentId = null;
-    render();
+function closePlayerStatsSheet() {
+    statsSheetElement.classList.remove("open");
+    backdropElement.classList.remove("open");
+    selectedPlayerId = null;
+    renderPlayerStatsTable();
 }
 
-document.getElementById("tbody").addEventListener("click", function (e) {
-    const tr = e.target.closest("tr.player");
-    if (tr) openSheet(tr.dataset.id);
+document.getElementById("playersTableBody").addEventListener("click", function (e) {
+    const row = e.target.closest("tr.player");
+    if (row) openPlayerStatsSheet(row.dataset.id);
 });
 
-document.getElementById("closeBtn").addEventListener("click", closeSheet);
-backdrop.addEventListener("click", closeSheet);
+document.getElementById("closeSheetBtn").addEventListener("click", closePlayerStatsSheet);
+backdropElement.addEventListener("click", closePlayerStatsSheet);
 
-document.getElementById("delBtn").addEventListener("click", function () {
-    const p = current();
-    if (!p) return;
+document.getElementById("deletePlayerBtn").addEventListener("click", function () {
+    const selectedPlayer = getSelectedPlayer();
+    if (!selectedPlayer) return;
 
-    if (confirm('Remove "' + p.name + '" and all their stats?')) {
-        players = players.filter(function (x) {
-            return x.id !== p.id;
+    if (confirm('Remove "' + selectedPlayer.name + '" and all their stats?')) {
+        players = players.filter(function (player) {
+            return player.id !== selectedPlayer.id;
         });
-        save();
-        closeSheet();
+        savePlayersToStorage();
+        closePlayerStatsSheet();
     }
 });
 
+statsSheetElement.addEventListener("click", function (e) {
+    const clickedButton = e.target.closest("button");
+    if (!clickedButton) return;
 
-sheet.addEventListener("click", function (e) {
-    const b = e.target.closest("button");
-    if (!b) return;
+    const selectedPlayer = getSelectedPlayer();
+    if (!selectedPlayer) return;
 
-    const p = current();
-    if (!p) return;
+    const statToIncrement = clickedButton.dataset.stat;
+    const statToUndo = clickedButton.dataset.undo;
 
-    const s = b.dataset.stat;
-    const u = b.dataset.undo;
-
-    if (s === "p2m") {
-        p.p2m++;
-        p.p2a++;
-    } else if (s === "p2a") {
-         p.p2a++;
-    } else if (s === "p3m") {
-         p.p3m++;
-         p.p3a++;
-    } else if (s === "p3a") {
-         p.p3a++;
-    } else if (s === "ast") {
-         p.ast++;
-    } else if (u === "p2") {
-        if (p.p2m > 0) {
-            p.p2m--;
-            p.p2a--;
-        } else if (p.p2a > 0) {
-            p.p2a--;
-        } 
-    } else if (u === "p3") {
-        if (p.p3m > 0) {
-            p.p3m--;
-            p.p3a--;
-        } else if (p.p3a > 0) {
-            p.p3a--;
+    if (statToIncrement === "twoPointersMade") {
+        selectedPlayer.twoPointersMade++;
+        selectedPlayer.twoPointersAttempted++;
+    } else if (statToIncrement === "twoPointersAttempted") {
+        selectedPlayer.twoPointersAttempted++;
+    } else if (statToIncrement === "threePointersMade") {
+        selectedPlayer.threePointersMade++;
+        selectedPlayer.threePointersAttempted++;
+    } else if (statToIncrement === "threePointersAttempted") {
+        selectedPlayer.threePointersAttempted++;
+    } else if (statToIncrement === "assists") {
+        selectedPlayer.assists++;
+    } else if (statToUndo === "twoPointers") {
+        if (selectedPlayer.twoPointersMade > 0) {
+            selectedPlayer.twoPointersMade--;
+            selectedPlayer.twoPointersAttempted--;
+        } else if (selectedPlayer.twoPointersAttempted > 0) {
+            selectedPlayer.twoPointersAttempted--;
         }
-    } else if (u === "ast" && p.ast > 0) {
-        p.ast--;
+    } else if (statToUndo === "threePointers") {
+        if (selectedPlayer.threePointersMade > 0) {
+            selectedPlayer.threePointersMade--;
+            selectedPlayer.threePointersAttempted--;
+        } else if (selectedPlayer.threePointersAttempted > 0) {
+            selectedPlayer.threePointersAttempted--;
+        }
+    } else if (statToUndo === "assists" && selectedPlayer.assists > 0) {
+        selectedPlayer.assists--;
     }
 
-    save();
-    refreshSheet();
-    render();
+    savePlayersToStorage();
+    refreshPlayerStatsSheet();
+    renderPlayerStatsTable();
 });
-
 
 document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeSheet();
+    if (e.key === "Escape") closePlayerStatsSheet();
 });
 
-render();
+renderPlayerStatsTable();
