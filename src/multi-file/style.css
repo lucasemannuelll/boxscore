@@ -9,10 +9,12 @@
   --accent2: #4e9cff;
   --good: #2ecc71;
 }
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+
 html,
 body {
   margin: 0;
@@ -22,6 +24,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
 }
+
 .wrap {
   max-width: 720px;
   margin: 0 auto;
@@ -34,9 +37,11 @@ header {
   gap: 8px;
   margin-bottom: 10px;
 }
+
 header .logo {
   font-size: 24px;
 }
+
 header h1 {
   font-size: 18px;
   margin: 0;
@@ -44,6 +49,7 @@ header h1 {
   text-transform: uppercase;
   flex: 1;
 }
+
 header h1 span {
   color: var(--accent);
 }
@@ -53,6 +59,7 @@ header h1 span {
   gap: 8px;
   margin-bottom: 12px;
 }
+
 .addbar input {
   flex: 1;
   background: var(--panel);
@@ -63,9 +70,11 @@ header h1 span {
   font-size: 16px;
   outline: none;
 }
+
 .addbar input:focus {
   border-color: var(--accent2);
 }
+
 .btn {
   border: none;
   border-radius: 10px;
@@ -76,14 +85,17 @@ header h1 span {
   color: #fff;
   background: var(--accent2);
 }
+
 .btn:active {
   transform: scale(0.96);
 }
+
 .btn.danger {
   background: #3a2430;
   color: #ff7a93;
   border: 1px solid #5b2f42;
 }
+
 .btn.ghost {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -97,11 +109,13 @@ header h1 span {
   border-radius: 14px;
   overflow: hidden;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
 }
+
 thead th {
   background: #0e1430;
   color: var(--muted);
@@ -115,21 +129,26 @@ thead th {
   top: 0;
   white-space: nowrap;
 }
+
 tbody td {
   padding: 10px 4px;
   text-align: center;
   border-bottom: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
+
 tbody tr:nth-child(even) {
   background: rgba(255, 255, 255, 0.025);
 }
+
 tbody tr.player {
   cursor: pointer;
 }
+
 tbody tr.player:active {
   background: var(--panel2);
 }
+
 td.name {
   text-align: left;
   padding-left: 10px;
@@ -139,21 +158,25 @@ td.name {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 td.name small {
   display: block;
   color: var(--muted);
   font-weight: 400;
   font-size: 10px;
 }
+
 td.pts {
   font-weight: 800;
   color: var(--accent);
   font-size: 15px;
 }
+
 td.ast {
   color: var(--accent2);
   font-weight: 700;
 }
+
 tfoot td {
   padding: 10px 4px;
   text-align: center;
@@ -162,11 +185,13 @@ tfoot td {
   border-top: 2px solid var(--accent);
   font-variant-numeric: tabular-nums;
 }
+
 tfoot td.name {
   text-align: left;
   padding-left: 10px;
   color: var(--muted);
 }
+
 .empty {
   padding: 28px 12px;
   text-align: center;
@@ -179,6 +204,7 @@ tfoot td.name {
   gap: 8px;
   margin-top: 12px;
 }
+
 .toolbar .btn {
   flex: 1;
 }
@@ -194,6 +220,7 @@ tfoot td.name {
   transition: opacity 0.22s;
   z-index: 40;
 }
+
 .sheet {
   position: fixed;
   left: 0;
@@ -212,13 +239,16 @@ tfoot td.name {
   max-height: 86vh;
   overflow-y: auto;
 }
+
 .sheet.open {
   transform: translateY(0);
 }
+
 .sheet-backdrop.open {
   opacity: 1;
   pointer-events: auto;
 }
+
 .grab {
   width: 44px;
   height: 5px;
@@ -226,10 +256,12 @@ tfoot td.name {
   background: var(--line);
   margin: 0 auto 12px;
 }
+
 .sheet h2 {
   margin: 0 0 2px;
   font-size: 19px;
 }
+
 .sheet .sub {
   color: var(--muted);
   font-size: 12.5px;
@@ -243,29 +275,35 @@ tfoot td.name {
   padding: 12px;
   margin-bottom: 10px;
 }
+
 .statgroup .gtitle {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 10px;
 }
+
 .statgroup .gtitle b {
   font-size: 14px;
   letter-spacing: 0.5px;
 }
+
 .statgroup .gtitle .val {
   font-variant-numeric: tabular-nums;
   color: var(--muted);
   font-size: 13px;
 }
+
 .gtitle .val b {
   color: var(--text);
   font-size: 15px;
 }
+
 .btnrow {
   display: flex;
   gap: 8px;
 }
+
 .bigbtn {
   flex: 1;
   border: none;
@@ -280,20 +318,25 @@ tfoot td.name {
   align-items: center;
   gap: 2px;
 }
+
 .bigbtn small {
   font-weight: 400;
   font-size: 10.5px;
   opacity: 0.75;
 }
+
 .bigbtn:active {
   transform: scale(0.95);
 }
+
 .bigbtn.make {
   background: linear-gradient(135deg, #1f8f52, #2ecc71);
 }
+
 .bigbtn.miss {
   background: linear-gradient(135deg, #8f1f2f, #e94560);
 }
+
 .bigbtn.undo {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -301,9 +344,11 @@ tfoot td.name {
   flex: 0 0 74px;
   justify-content: center;
 }
+
 .bigbtn.ast {
   background: linear-gradient(135deg, #2456a8, #4e9cff);
 }
+
 .sheet .closebtn {
   width: 100%;
   margin-top: 4px;
@@ -311,6 +356,7 @@ tfoot td.name {
   border: 1px solid var(--line);
   color: var(--muted);
 }
+
 .sheet .delbtn {
   width: 100%;
   margin-top: 8px;

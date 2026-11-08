@@ -8,7 +8,7 @@
     />
     <meta name="theme-color" content="#0b1020" />
     <title>BoxScore</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -45,7 +45,8 @@
           <tfoot id="playersTableFooter"></tfoot>
         </table>
         <div class="empty" id="emptyStateMessage">
-          Nenhum jogador ainda — adicione um acima e toque em uma linha para registrar estatísticas.
+          Nenhum jogador ainda — adicione um acima e toque em uma linha para
+          registrar estatísticas.
         </div>
       </div>
 
@@ -64,13 +65,20 @@
       <div class="statgroup">
         <div class="gtitle">
           <b>2-PONTOS</b
-          ><span class="val"><b id="twoPointersMadeValue">0</b>/<span id="twoPointersAttemptedValue">0</span></span>
+          ><span class="val"
+            ><b id="twoPointersMadeValue">0</b>/<span
+              id="twoPointersAttemptedValue"
+              >0</span
+            ></span
+          >
         </div>
         <div class="btnrow">
           <button class="bigbtn make" data-stat="twoPointersMade">
             + Convertido<small>conta tentativa</small>
           </button>
-          <button class="bigbtn miss" data-stat="twoPointersAttempted">+ Errado</button>
+          <button class="bigbtn miss" data-stat="twoPointersAttempted">
+            + Errado
+          </button>
           <button class="bigbtn undo" data-undo="twoPointers">−1</button>
         </div>
       </div>
@@ -78,13 +86,20 @@
       <div class="statgroup">
         <div class="gtitle">
           <b>3-PONTOS</b
-          ><span class="val"><b id="threePointersMadeValue">0</b>/<span id="threePointersAttemptedValue">0</span></span>
+          ><span class="val"
+            ><b id="threePointersMadeValue">0</b>/<span
+              id="threePointersAttemptedValue"
+              >0</span
+            ></span
+          >
         </div>
         <div class="btnrow">
           <button class="bigbtn make" data-stat="threePointersMade">
             + Convertido<small>conta tentativa</small>
           </button>
-          <button class="bigbtn miss" data-stat="threePointersAttempted">+ Errado</button>
+          <button class="bigbtn miss" data-stat="threePointersAttempted">
+            + Errado
+          </button>
           <button class="bigbtn undo" data-undo="threePointers">−1</button>
         </div>
       </div>
@@ -100,7 +115,9 @@
       </div>
 
       <button class="btn ghost closebtn" id="closeSheetBtn">Fechar</button>
-      <button class="btn danger delbtn" id="deletePlayerBtn">Remover jogador</button>
+      <button class="btn danger delbtn" id="deletePlayerBtn">
+        Remover jogador
+      </button>
     </div>
   </body>
 </html>

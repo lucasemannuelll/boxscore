@@ -362,7 +362,8 @@
           <tfoot id="playersTableFooter"></tfoot>
         </table>
         <div class="empty" id="emptyStateMessage">
-          Nenhum jogador ainda — adicione um acima e toque em uma linha para registrar estatísticas.
+          Nenhum jogador ainda — adicione um acima e toque em uma linha para
+          registrar estatísticas.
         </div>
       </div>
 
@@ -381,13 +382,20 @@
       <div class="statgroup">
         <div class="gtitle">
           <b>2-PONTOS</b
-          ><span class="val"><b id="twoPointersMadeValue">0</b>/<span id="twoPointersAttemptedValue">0</span></span>
+          ><span class="val"
+            ><b id="twoPointersMadeValue">0</b>/<span
+              id="twoPointersAttemptedValue"
+              >0</span
+            ></span
+          >
         </div>
         <div class="btnrow">
           <button class="bigbtn make" data-stat="twoPointersMade">
             + Convertido<small>conta tentativa</small>
           </button>
-          <button class="bigbtn miss" data-stat="twoPointersAttempted">+ Errado</button>
+          <button class="bigbtn miss" data-stat="twoPointersAttempted">
+            + Errado
+          </button>
           <button class="bigbtn undo" data-undo="twoPointers">−1</button>
         </div>
       </div>
@@ -395,13 +403,20 @@
       <div class="statgroup">
         <div class="gtitle">
           <b>3-PONTOS</b
-          ><span class="val"><b id="threePointersMadeValue">0</b>/<span id="threePointersAttemptedValue">0</span></span>
+          ><span class="val"
+            ><b id="threePointersMadeValue">0</b>/<span
+              id="threePointersAttemptedValue"
+              >0</span
+            ></span
+          >
         </div>
         <div class="btnrow">
           <button class="bigbtn make" data-stat="threePointersMade">
             + Convertido<small>conta tentativa</small>
           </button>
-          <button class="bigbtn miss" data-stat="threePointersAttempted">+ Errado</button>
+          <button class="bigbtn miss" data-stat="threePointersAttempted">
+            + Errado
+          </button>
           <button class="bigbtn undo" data-undo="threePointers">−1</button>
         </div>
       </div>
@@ -417,7 +432,9 @@
       </div>
 
       <button class="btn ghost closebtn" id="closeSheetBtn">Fechar</button>
-      <button class="btn danger delbtn" id="deletePlayerBtn">Remover jogador</button>
+      <button class="btn danger delbtn" id="deletePlayerBtn">
+        Remover jogador
+      </button>
     </div>
 
     <script>
@@ -458,7 +475,8 @@
             fieldGoalsMade: player.twoPointersMade + player.threePointersMade,
             fieldGoalsAttempted:
               player.twoPointersAttempted + player.threePointersAttempted,
-            pointsScored: 2 * player.twoPointersMade + 3 * player.threePointersMade,
+            pointsScored:
+              2 * player.twoPointersMade + 3 * player.threePointersMade,
           };
         }
 
@@ -473,7 +491,8 @@
         function renderPlayerStatsTable() {
           const tableBody = document.getElementById("playersTableBody");
           const tableFooter = document.getElementById("playersTableFooter");
-          const emptyStateMessage = document.getElementById("emptyStateMessage");
+          const emptyStateMessage =
+            document.getElementById("emptyStateMessage");
           tableBody.innerHTML = "";
           const overallTotals = {
             fieldGoalsMade: 0,
@@ -487,7 +506,8 @@
           players.forEach(function (player) {
             const playerTotals = calculatePlayerTotals(player);
             const fieldGoalPercentage = playerTotals.fieldGoalsAttempted
-              ? ((100 * playerTotals.fieldGoalsMade) /
+              ? (
+                  (100 * playerTotals.fieldGoalsMade) /
                   playerTotals.fieldGoalsAttempted
                 ).toFixed(1)
               : "0.0";
@@ -496,7 +516,7 @@
             tableRow.dataset.id = player.id;
             tableRow.innerHTML = `
             <td class="name">${escapeHtmlCharacters(
-              player.name
+              player.name,
             )}<small>tap to log</small></td>
             <td>${playerTotals.fieldGoalsMade}/${
               playerTotals.fieldGoalsAttempted
@@ -511,9 +531,11 @@
             tableBody.appendChild(tableRow);
 
             overallTotals.fieldGoalsMade += playerTotals.fieldGoalsMade;
-            overallTotals.fieldGoalsAttempted += playerTotals.fieldGoalsAttempted;
+            overallTotals.fieldGoalsAttempted +=
+              playerTotals.fieldGoalsAttempted;
             overallTotals.threePointersMade += player.threePointersMade;
-            overallTotals.threePointersAttempted += player.threePointersAttempted;
+            overallTotals.threePointersAttempted +=
+              player.threePointersAttempted;
             overallTotals.pointsScored += playerTotals.pointsScored;
             overallTotals.assists += player.assists;
           });
@@ -521,7 +543,8 @@
           emptyStateMessage.style.display = players.length ? "none" : "block";
 
           const overallFieldGoalPercentage = overallTotals.fieldGoalsAttempted
-            ? ((100 * overallTotals.fieldGoalsMade) /
+            ? (
+                (100 * overallTotals.fieldGoalsMade) /
                 overallTotals.fieldGoalsAttempted
               ).toFixed(1)
             : "0.0";
@@ -572,9 +595,11 @@
         }
 
         document.getElementById("addBtn").addEventListener("click", addPlayer);
-        document.getElementById("nameInput").addEventListener("keydown", function (e) {
-          if (e.key === "Enter") addPlayer();
-        });
+        document
+          .getElementById("nameInput")
+          .addEventListener("keydown", function (e) {
+            if (e.key === "Enter") addPlayer();
+          });
 
         document
           .getElementById("resetSessionBtn")
@@ -599,7 +624,8 @@
         function refreshPlayerStatsSheet() {
           const selectedPlayer = getSelectedPlayer();
           if (!selectedPlayer) return;
-          document.getElementById("sheetPlayerName").textContent = selectedPlayer.name;
+          document.getElementById("sheetPlayerName").textContent =
+            selectedPlayer.name;
 
           const playerTotals = calculatePlayerTotals(selectedPlayer);
           document.getElementById("sheetSummaryLine").textContent =
@@ -657,7 +683,9 @@
             if (!selectedPlayer) return;
 
             if (
-              confirm('Remove "' + selectedPlayer.name + '" and all their stats?')
+              confirm(
+                'Remove "' + selectedPlayer.name + '" and all their stats?',
+              )
             ) {
               players = players.filter(function (player) {
                 return player.id !== selectedPlayer.id;
